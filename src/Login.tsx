@@ -48,68 +48,81 @@ const Login = () => {
     }
 
     return (
-        <div className='w-full h-screen flex'>
-            {/* Left half of the screen - background styling */}
-            <div className='w-1/2 h-full flex flex-col bg-[#282c34] items-center justify-center'>
-            </div>
+        <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black'>
+            <div className='w-full max-w-md p-8 space-y-6 rounded-2xl bg-gray-800/50 backdrop-blur-md shadow-xl'>
+                <div className='text-center'>
+                    <h1 className='text-4xl font-bold text-white'>Welcome Back</h1>
+                    <p className='mt-2 text-gray-400'>Please enter your details to continue</p>
+                </div>
 
-            {/* Right half of the screen - login form */}
-            <div className='w-1/2 h-full bg-[#1a1a1a] flex flex-col p-20 justify-center'>
-                <div className='w-full flex flex-col max-w-[450px] mx-auto'>
-                    {/* Header section with title and welcome message */}
-                    <div className='w-full flex flex-col mb-10 text-white'>
-                        <h3 className='text-4xl font-bold mb-2'>Login</h3>
-                        <p className='text-lg mb-4'>Welcome Back! Please enter your details.</p>
+                <form className='space-y-6' onSubmit={(e) => e.preventDefault()}>
+                    <div>
+                        <label htmlFor='email' className='block text-sm font-medium text-gray-300'>Email address</label>
+                        <div className='mt-1'>
+                            <input
+                                id='email'
+                                name='email'
+                                type='email'
+                                autoComplete='email'
+                                required
+                                className='block w-full px-3 py-2 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
                     </div>
 
-                    {/* Input fields for email and password */}
-                    <div className='w-full flex flex-col mb-6'>
-                        <input
-                            type='email'
-                            placeholder='Email'
-                            className='w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            className='w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)} />
+                    <div>
+                        <div className='flex items-center justify-between'>
+                            <label htmlFor='password' className='block text-sm font-medium text-gray-300'>Password</label>
+                        </div>
+                        <div className='mt-1'>
+                            <input
+                                id='password'
+                                name='password'
+                                type='password'
+                                autoComplete='current-password'
+                                required
+                                className='block w-full px-3 py-2 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
                     </div>
 
-                    {/* Button to log in with email and password */}
-                    <div className='w-full flex flex-col mb-4'>
+                    {error && (
+                        <div className='px-3 py-2 bg-red-600/10 text-red-400 rounded-md text-sm'>
+                            {error}
+                        </div>
+                    )}
+
+                    <div>
                         <button
-                            className='w-full bg-transparent border border-white text-white my-2 font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer'
+                            type='submit'
                             onClick={signInWithEmail}
-                            disabled={authing}>
-                            Log In With Email and Password
+                            disabled={authing}
+                            className='flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        >
+                            {authing ? 'Signing in...' : 'Sign in'}
                         </button>
                     </div>
+                </form>
 
-                    {/* Display error message if there is one */}
-                    {error && <div className='text-red-500 mb-4'>{error}</div>}
-
-                    {/* Divider with 'OR' text */}
-                    <div className='w-full flex items-center justify-center relative py-4'>
-                        <div className='w-full h-[1px] bg-gray-500'></div>
-                        <p className='text-lg absolute text-gray-500 bg-[#1a1a1a] px-2'>OR</p>
+                <div className='relative my-6'>
+                    <div className='absolute inset-0 flex items-center' aria-hidden='true'>
+                        <div className='w-full border-t border-gray-300/20' />
                     </div>
-
-                    {/* Button to log in with Google */}
-                    <button
-                        className='w-full bg-white text-black font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer mt-7'
-                        onClick={signInWithGoogle}
-                        disabled={authing}>
-                        Log In With Google
-                    </button>
+                    <div className='relative flex justify-center text-sm font-medium'>
+                        <span className='bg-gray-800/50 px-2 text-gray-400'>or</span>
+                    </div>
                 </div>
 
-                {/* Link to sign up page */}
-                <div className='w-full flex items-center justify-center mt-10'>
-                    <p className='text-sm font-normal text-gray-400'>Don't have an account? <span className='font-semibold text-white cursor-pointer underline'><a href='/signup'>Sign Up</a></span></p>
-                </div>
+                <button
+                    onClick={signInWithGoogle}
+                    className='flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+                >
+                    Continue with Google
+                </button>
             </div>
         </div>
     );
