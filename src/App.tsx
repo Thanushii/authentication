@@ -1,6 +1,20 @@
 import { useState } from 'react'
+import { getAuth, signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 function App() {
+  const auth = getAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      navigate('/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
+
   return (
     <div style={{
       height: '100vh',
@@ -34,6 +48,23 @@ function App() {
         }}>
           You're currently logged in.
         </p>
+        <button 
+          onClick={handleLogout}
+          style={{
+            marginTop: '20px',
+            padding: '10px 20px',
+            backgroundColor: '#ff4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s'
+          }}
+          onMouseOver={(e) => (e.target as HTMLButtonElement).style.backgroundColor = '#ff2222'}
+          onMouseOut={(e) => (e.target as HTMLButtonElement).style.backgroundColor = '#ff4444'}
+        >
+          Logout
+        </button>
       </div>
     </div>
   )
